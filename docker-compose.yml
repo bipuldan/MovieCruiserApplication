@@ -1,0 +1,45 @@
+--- 
+services: 
+  angular: 
+    build: frontEnd
+    container_name: angular-docker
+    image: angular-app
+    network_mode: host
+    ports: 
+      - "4200:4200"
+  movie-app: 
+    build: moviecruiserService/
+    depends_on: 
+      - movie-mysql
+    expose: 
+      - 8088
+    image: movie-app
+    network_mode: host
+    ports: 
+      - "8088:8088"
+    restart: always
+  movie-mysql: 
+    environment: 
+      MYSQL_DATABASE: db_fse_movie
+      MYSQL_PASSWORD: root123
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: app_root
+    image: "mysql:5.5"
+    network_mode: host
+    ports: 
+      - "3306:3306"
+    volumes: 
+      - "/opt/movie/mysqldb:/var/lib/mysql"
+  user-app: 
+    build: MovieCruiserAuthenticationService/
+    depends_on: 
+      - movie-mysql
+    expose: 
+      - 8082
+    image: user-app
+    network_mode: host
+    ports: 
+      - "8082:8082"
+    restart: always
+version: "3.2"
+

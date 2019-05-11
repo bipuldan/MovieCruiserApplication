@@ -1,0 +1,12 @@
+--- 
+server: 
+  port: 8088
+spring: 
+  datasource: 
+    password: "${MYSQL_PASSWORD}"
+    url: "${MYSQL_CI_URL}"
+    username: "${MYSQL_USER}"
+  jpa: 
+    hibernate: 
+      ddl-auto: update
+    show-sql: true
